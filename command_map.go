@@ -1,31 +1,47 @@
 package main
 
-func commandMap(config *Config) error {
+import (
+	"errors"
+	"fmt"
 
-	locationAreas, err := getLocationAreas(config.Next)
+	"github.com/xterminator24/bootdev-pokedex/internal/pokeapi"
+)
+
+func commandMapf(config *Config) error {
+
+	locationsResp, err := config.pokeapiClient.ListLocations(config.nextLocationsURL)
 	if err != nil {
 		return err
 	}
 
-	config.Next = locationAreas.Next
-	config.Prev = locationAreas.Previous
+	config.nextLocationsURL = locationsResp.Next
+	config.prevLocationsURL = locationsResp.Previous
 
-	printLocationAreas(locationAreas)
+	printLocationAreas(locationsResp)
 
 	return nil
 }
 
 func commandMapb(config *Config) error {
+	if config.prevLocationsURL == nil {
+		return errors.New("you're on the first page")
+	}
 
-	locationAreas, err := getLocationAreas(config.Prev)
+	locationsResp, err := config.pokeapiClient.ListLocations(config.prevLocationsURL)
 	if err != nil {
 		return err
 	}
 
-	config.Next = locationAreas.Next
-	config.Prev = locationAreas.Previous
+	config.nextLocationsURL = locationsResp.Next
+	config.prevLocationsURL = locationsResp.Previous
 
-	printLocationAreas(locationAreas)
+	printLocationAreas(locationsResp)
 
 	return nil
+}
+
+func printLocationAreas(locationsResp pokeapi.RespShallowLocations) {
+	for _,location := range locationsResp.Results {
+		fmt.Println(location.Name)
+	}
 }

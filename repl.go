@@ -5,7 +5,15 @@ import (
 	"fmt"
 	"os"
 	"strings"
+
+	"github.com/xterminator24/bootdev-pokedex/internal/pokeapi"
 )
+
+type Config struct {
+	pokeapiClient		pokeapi.Client
+	nextLocationsURL	*string
+	prevLocationsURL	*string
+}
 
 func startRepl(config *Config) {
 	reader := bufio.NewScanner(os.Stdin)
@@ -41,11 +49,6 @@ func cleanInput(text string) []string {
 	return words
 }
 
-type Config struct {
-	Next	string
-	Prev	string
-}
-
 type cliCommand struct {
 	name		string
 	description	string
@@ -59,20 +62,20 @@ func getCommands() map[string]cliCommand {
 			description: "Displays a help message",
 			callback: 	 commandHelp,	
 		},
-		"exit": {
-			name: 		 "exit",
-			description: "Exit the Pokedex",
-			callback:  	 commandExit,
-		},
-		"map": {
-			name: 		 "map",
+		"mapf": {
+			name: 		 "mapf",
 			description: "Fetch the next 20 map location areas",
-			callback:  	 commandMap,	
+			callback:  	 commandMapf,	
 		},
 		"mapb": {
 			name: 		 "mapb",
 			description: "Fetch the previous 20 map location areas",
 			callback: 	 commandMapb,	
+		},
+		"exit": {
+			name: 		 "exit",
+			description: "Exit the Pokedex",
+			callback:  	 commandExit,
 		},
 	}
 }
