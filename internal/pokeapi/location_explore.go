@@ -2,7 +2,6 @@ package pokeapi
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 )
@@ -12,7 +11,6 @@ func (c *Client) GetLocation(locationName string) (Location, error) {
 
 	// If cache exists for the request use it and return
 	if cachedData, found := c.Cache.Get(url); found {
-		fmt.Println("using cache...")
 		var location	Location
 		err := json.Unmarshal(cachedData, &location)
 		return location, err
