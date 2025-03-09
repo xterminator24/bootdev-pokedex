@@ -33,7 +33,7 @@ func commandCatch(config *Config, args ...string) error {
 
 	// Pokemon caught add to pokedex
 	fmt.Printf("%s was caught!\n", pokemon.Name)
-	fmt.Println("You mayu now inspect it with the inspect command")
+	fmt.Println("You may now inspect it with the inspect command")
 	config.Pokedex[pokemon.Name] = pokemon
 
 	return nil
