@@ -2,7 +2,6 @@ package pokeapi
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 )
@@ -16,13 +15,12 @@ func (c *Client) ListLocations(pageURL *string) (RespShallowLocations, error) {
 
 	// If cache exists for the request use it and return
 	if cachedData, found := c.Cache.Get(url); found {
-		fmt.Println("using cache...")
 		var locationsResp RespShallowLocations
 		err := json.Unmarshal(cachedData, &locationsResp)
 		return locationsResp, err
 	}
 
-	// Otherwise fetcch the data from the API
+	// Otherwise fetch the data from the API
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		return RespShallowLocations{}, err

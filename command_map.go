@@ -7,7 +7,7 @@ import (
 	"github.com/xterminator24/bootdev-pokedex/internal/pokeapi"
 )
 
-func commandMapf(config *Config) error {
+func commandMapf(config *Config, args ...string) error {
 
 	locationsResp, err := config.pokeapiClient.ListLocations(config.nextLocationsURL)
 	if err != nil {
@@ -22,7 +22,7 @@ func commandMapf(config *Config) error {
 	return nil
 }
 
-func commandMapb(config *Config) error {
+func commandMapb(config *Config, args ...string) error {
 	if config.prevLocationsURL == nil {
 		return errors.New("you're on the first page")
 	}
